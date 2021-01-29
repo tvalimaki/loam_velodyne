@@ -101,7 +101,7 @@ bool MultiScanRegistration::setupROS(ros::NodeHandle& node, ros::NodeHandle& pri
       _scanMapper = MultiScanMapper::Velodyne_HDL_32();
     } else if (lidarName == "HDL-64E") {
       _scanMapper = MultiScanMapper::Velodyne_HDL_64E();
-    } else if (lidarName == "Bpearl") {
+    } else if (lidarName == "BPearl") {
       _scanMapper = MultiScanMapper::Robosense_BPearl();
     } else {
       ROS_ERROR("Invalid lidar parameter: %s (only \"VLP-16\", \"HDL-32\", \"HDL-64E\" and \"BPearl\" are supported)", lidarName.c_str());
