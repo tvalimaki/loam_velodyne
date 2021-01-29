@@ -101,8 +101,10 @@ bool MultiScanRegistration::setupROS(ros::NodeHandle& node, ros::NodeHandle& pri
       _scanMapper = MultiScanMapper::Velodyne_HDL_32();
     } else if (lidarName == "HDL-64E") {
       _scanMapper = MultiScanMapper::Velodyne_HDL_64E();
+    } else if (lidarName == "Bpearl") {
+      _scanMapper = MultiScanMapper::Robosense_BPearl();
     } else {
-      ROS_ERROR("Invalid lidar parameter: %s (only \"VLP-16\", \"HDL-32\" and \"HDL-64E\" are supported)", lidarName.c_str());
+      ROS_ERROR("Invalid lidar parameter: %s (only \"VLP-16\", \"HDL-32\", \"HDL-64E\" and \"BPearl\" are supported)", lidarName.c_str());
       return false;
     }
 
@@ -142,7 +144,7 @@ bool MultiScanRegistration::setupROS(ros::NodeHandle& node, ros::NodeHandle& pri
 
 void MultiScanRegistration::handleCloudMessage(const sensor_msgs::PointCloud2ConstPtr &laserCloudMsg)
 {
-  if (_systemDelay > 0) 
+  if (_systemDelay > 0)
   {
     --_systemDelay;
     return;
@@ -175,7 +177,7 @@ void MultiScanRegistration::process(const pcl::PointCloud<pcl::PointXYZ>& laserC
   pcl::PointXYZI point;
   _laserCloudScans.resize(_scanMapper.getNumberOfScanRings());
   // clear all scanline points
-  std::for_each(_laserCloudScans.begin(), _laserCloudScans.end(), [](auto&&v) {v.clear(); }); 
+  std::for_each(_laserCloudScans.begin(), _laserCloudScans.end(), [](auto&&v) {v.clear(); });
 
   // extract valid points from input cloud
   for (int i = 0; i < cloudSize; i++) {
